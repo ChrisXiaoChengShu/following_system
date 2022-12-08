@@ -1,6 +1,5 @@
-from itertools import chain
-
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from .func import get_fans, get_friends, get_eyes_on, follow, unfollow
 
@@ -18,6 +17,15 @@ def user_page(request, pk):
     cur_user = request.user
     user = User.objects.get(username=pk)
     tab_action = request.GET.get('tab_action', 'eye_on')
+    page_number = request.GET.get('page')
+
+    default_number_per_page = 2
+    eyes_on_pagination = Paginator(get_eyes_on(user), default_number_per_page)
+    fans_pagination = Paginator(get_fans(user), default_number_per_page)
+    friends_pagination = Paginator(get_friends(user), default_number_per_page)
+    eyes_on = eyes_on_pagination.get_page(page_number)
+    fans = fans_pagination.get_page(page_number)
+    friends = friends_pagination.get_page(page_number)
 
     if request.method == "POST":
         data = request.POST
@@ -35,9 +43,9 @@ def user_page(request, pk):
             'is_friends': cur_user.username in [u.friend_name() for u in get_friends(user)],
             'cur_user': cur_user,
             'user': user,
-            "eyes_on": get_eyes_on(user),
-            "fans": get_fans(user),
-            "friends": get_friends(user),
+            "eyes_on": eyes_on,
+            "fans": fans,
+            "friends": friends,
             "tab_action": tab_action,
         }
     )
