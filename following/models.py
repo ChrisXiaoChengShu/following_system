@@ -8,3 +8,12 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.user.username} follow {self.followed.username}'
+
+    def friend_name(self):
+        return self.followed.username
+
+    def fan_name(self):
+        return self.user.username
+
+    def eyes_on_name(self):
+        return self.followed.username
