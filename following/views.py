@@ -1,18 +1,22 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from .func import get_fans, get_friends, get_eyes_on, follow, unfollow
 
 
+@login_required
 def index(request):
     return render(request, 'base.html')
 
 
+@login_required
 def user_list(request):
     user = User.objects.exclude(username=request.user)
     return render(request, 'user_list.html', {'users': user})
 
 
+@login_required
 def user_page(request, pk):
     cur_user = request.user
     user = User.objects.get(username=pk)
