@@ -32,37 +32,107 @@
         </a>
     </div>
 
-    <div class="block">
-        <h3 class="title is-4">
-            {{user.username}} 關注:
-        </h3>
-        <div class="content">
-            <ul>
-            {% for fan in eyes_on %}
-                <li>
-                    <a href="{% url 'user_page' fan.eyes_on_name %}">
-                        {{ fan.eyes_on_name }}
-                    </a>
-                </li>
-            {% endfor %}
-            </ul>
-        </div>
-    </div>
+    <div class="container">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+                {% if tab_action == 'eye_on'%}
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">關注</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="{% url 'user_page' user.username %}?tab_action=eye_on">關注</a>
+                    </li>
+                {% endif %}
+                {% if tab_action == 'fans'%}
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">粉絲</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="{% url 'user_page' user.username %}?tab_action=fans">粉絲</a>
+                    </li>
+                {% endif %}
+                {% if tab_action == 'friends'%}
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">好友</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="{% url 'user_page' user.username %}?tab_action=friends">好友</a>
+                    </li>
+                {% endif %}
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            {% if tab_action == 'eye_on'%}
+                <div class="tab-pane container active" id="home">
+                    <div class="block">
+                        <h3 class="title is-4">
+                            {{user.username}} 關注:
+                        </h3>
+                        <div class="content">
+                            <ul>
+                            {% for fan in eyes_on %}
+                                <li>
+                                    <a href="{% url 'user_page' fan.eyes_on_name %}">
+                                        {{ fan.eyes_on_name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="tab-pane container" id="home"></div>
+            {% endif %}
+            {% if tab_action == 'fans'%}
+                <div class="tab-pane container active" id="home">
+                    <div class="block">
+                        <h3 class="title is-4">
+                            {{user.username}} 紛絲:
+                        </h3>
+                        <div class="content">
+                            <ul>
+                            {% for fan in fans %}
+                                <li>
+                                    <a href="{% url 'user_page' fan.fan_name %}">
+                                        {{ fan.fan_name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="tab-pane container" id="home"></div>
+            {% endif %}
+            {% if tab_action == 'friends'%}
+                <div class="tab-pane container active" id="home">
+                    <div class="block">
+                        <h3 class="title is-4">
+                            {{user.username}} 好友:
+                        </h3>
+                        <div class="content">
+                            <ul>
+                            {% for f in friends %}
+                                <li>
+                                    <a href="{% url 'user_page' f.friend_name %}">
+                                        {{ f.friend_name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
 
-    <div class="block">
-        <h3 class="title is-4">
-            {{user.username}} 紛絲:
-        </h3>
-        <div class="content">
-            <ul>
-            {% for fan in fans %}
-                <li>
-                    <a href="{% url 'user_page' fan.fan_name %}">
-                        {{ fan.fan_name }}
-                    </a>
-                </li>
-            {% endfor %}
-            </ul>
+                </div>
+            {% else %}
+                <div class="tab-pane container" id="home"></div>
+            {% endif %}
         </div>
     </div>
 
