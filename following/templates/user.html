@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="column">
+
+    <div class="block">
+    <h1 class="title is-1">
+        {{user.username|upper}}'s Profile
+    </h1>
+    </div>
+
+</div>
+
+<div class="column is-one-third">
+
+    <div class="block">
+        <a href="{% url 'user_list' %}">
+            <button class="button is-dark is-outlined is-fullwidth">
+                All Profiles
+            </button>
+        </a>
+    </div>
+
+    <div class="block">
+        <h3 class="title is-4">
+            {{user.username}} 關注:
+        </h3>
+        <div class="content">
+            <ul>
+            {% for fan in eyes_on %}
+                <li>
+                    <a href="{% url 'user_page' fan.eyes_on_name %}">
+                        {{ fan.eyes_on_name }}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="block">
+        <h3 class="title is-4">
+            {{user.username}} 紛絲:
+        </h3>
+        <div class="content">
+            <ul>
+            {% for fan in fans %}
+                <li>
+                    <a href="{% url 'user_page' fan.fan_name %}">
+                        {{ fan.fan_name }}
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
