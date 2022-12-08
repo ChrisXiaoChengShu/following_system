@@ -27,3 +27,11 @@ def get_eyes_on(user):
     follow_q = _get_follow(user)
     followed_q = _get_followed(user)
     return follow_q.exclude(followed__username__in=followed_q.values_list('user__username'))
+
+
+def follow(user: User, follower: User):
+    Follow.objects.get_or_create(user=user, followed=follower)
+
+
+def unfollow(user: User, follower: User):
+    Follow.objects.filter(user=user, followed=follower).delete()
